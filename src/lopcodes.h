@@ -76,6 +76,9 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 #define MAXARG_C        ((1<<SIZE_C)-1)
 
 
+
+// Instruction -> unsigned int  or unsigned long
+// ~0 -> 4294967295 or 18446744073709551615
 /* creates a mask with 'n' 1 bits at position 'p' */
 #define MASK1(n,p)	((~((~(Instruction)0)<<(n)))<<(p))
 
@@ -86,13 +89,15 @@ enum OpMode {iABC, iABx, iAsBx, iAx};  /* basic instruction format */
 ** the following macros help to manipulate instructions
 */
 
+// MASK1 111 111
+// 将i转换为OpCode枚举
 #define GET_OPCODE(i)	(cast(OpCode, ((i)>>POS_OP) & MASK1(SIZE_OP,0)))
-#define SET_OPCODE(i,o)	((i) = (((i)&MASK0(SIZE_OP,POS_OP)) | \
-		((cast(Instruction, o)<<POS_OP)&MASK1(SIZE_OP,POS_OP))))
+
+#define SET_OPCODE(i,o)	((i) = (((i)&MASK0(SIZE_OP,POS_OP)) | ((cast(Instruction, o)<<POS_OP)&MASK1(SIZE_OP,POS_OP))))
 
 #define getarg(i,pos,size)	(cast(int, ((i)>>pos) & MASK1(size,0)))
-#define setarg(i,v,pos,size)	((i) = (((i)&MASK0(size,pos)) | \
-                ((cast(Instruction, v)<<pos)&MASK1(size,pos))))
+
+#define setarg(i,v,pos,size)	((i) = (((i)&MASK0(size,pos)) | ((cast(Instruction, v)<<pos)&MASK1(size,pos))))
 
 #define GETARG_A(i)	getarg(i, POS_A, SIZE_A)
 #define SETARG_A(i,v)	setarg(i, v, POS_A, SIZE_A)

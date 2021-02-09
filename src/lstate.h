@@ -63,6 +63,7 @@ typedef struct stringtable {
 
 
 /*
+** yields: 让步
 ** Information about a call.
 ** When a thread yields, 'func' is adjusted to pretend that the
 ** top function has only the yielded values in its stack; in that

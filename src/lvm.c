@@ -762,6 +762,7 @@ void luaV_finishOp (lua_State *L) {
   lua_assert(base <= L->top && L->top < L->stack + L->stacksize); \
 }
 
+// damonpeng: 为啥lua要定义这些，不直接写switch，case呢?
 #define vmdispatch(o)	switch(o)
 #define vmcase(l)	case l:
 #define vmbreak		break
